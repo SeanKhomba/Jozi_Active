@@ -1,0 +1,16 @@
+{
+  "short_name": "Jozi Active App",
+  "name": "Jozi Active App PWA",
+  "icons": [
+    {
+      "src": "/images/JA-logo.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000"
+}
