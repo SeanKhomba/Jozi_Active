@@ -5,7 +5,7 @@ const Header = (props) => {
     return (
 			<div style={styles.headerContainer}>
 				<div style={styles.logoContainer}>
-						<img src={require('/Users/sean/sites/jozi_active/src/images/transparent-logo.png')} alt={"Jozi Active Logo"}  style={styles.logoImage} />
+						<img src="" alt={"Jozi Active Logo"}  style={styles.logoImage} />
 						<p style={styles.logoTitle}>
 						{props.logoTitle}
 						</p>

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signUpData } from "../../redux/actions/signUp.jsx";
 // import { typeSignUpUsername } from "../../redux/actions/signUp.jsx";
@@ -22,7 +22,7 @@ const SignUpScreen = (props) => {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const [confirm_password,setConfirm_password] = useState('');
-
+  const userData = props.user_signIn;
   const handleSignUp = (e) =>  {
     e.preventDefault();
     const sign_up_data ={
@@ -33,18 +33,31 @@ const SignUpScreen = (props) => {
       password:password,
       confirm_password:confirm_password,
     }
+    console.log(sign_up_data);
     props.add(sign_up_data);
-    setName('');setSurname('');setPhone('');
-    setEmail('');setPassword('');setConfirm_password('');
+   // setName('');setSurname('');setPhone('');
+  //  setEmail('');setPassword('');setConfirm_password('');
+ 
   };
+  let errorMsg;
+  if(userData){
+    
+    if(userData.status == 'Success'){
+        return <Redirect from="/" to="/login"  />;
+    }else{
+         errorMsg = userData.msg;
+    }
 
+  }
   return (
     <PageContainer>
       <ImageSlide imageWidth={{width:100}} image={`linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url(${signUp})`}>
         <Header logoTitle="SIGN UP" divderTitle="Info"/>    
       </ImageSlide>
       <Container>
+        <p>{errorMsg}</p>
       <AuthContainer height={'65%'} top={'2%'}>
+     
         <form style= {styles.inputForm} onSubmit={handleSignUp} >
             <TextInput 
             value={name} 
@@ -95,7 +108,7 @@ const SignUpScreen = (props) => {
 const mapStateToProps = (state) => {
   console.log(state);
   return {
-    user_signIn: state.signUpReducer.users_signUpArray,
+    user_signIn: state.signUpReducer.users_sign_up,
   }
 }
 const mapDispatchToProps = (dispatch) => {

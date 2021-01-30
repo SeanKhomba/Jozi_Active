@@ -10,7 +10,7 @@ export const typeLoginUsername = (login_data) => (
 
 // this is the data that is sent from login form to the 'Jozi Active login API'
 export const loginData = (login_data) => dispatch => {
-  fetch('https://jsonplaceholder.typicode.com/posts', {
+  fetch('http://127.0.0.1:8000/api/login', {
     method:'POST',
     headers: {
       'Content-Type': 'application/json'

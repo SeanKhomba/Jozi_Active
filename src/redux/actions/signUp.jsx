@@ -11,7 +11,7 @@ export const typeSignUpUsername = (sign_up_data) => (
 
 // this is the data that is sent from  Sign Up  form to the 'Jozi Active SignUp API'
 export const signUpData = (sign_up_data) => dispatch => {
-  fetch('http://api.joziactive.com/api/register', {
+  fetch('http://127.0.0.1:8000/api/register', {
     method:'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -19,7 +19,7 @@ export const signUpData = (sign_up_data) => dispatch => {
     body: JSON.stringify(sign_up_data)
   })
   .then (response => response.json())
-  .then (response => console.log(response))
+  //.then (response => console.log(response))
   // .then(res => {
   //   localStorage.setItem('token', res.config.data.token);
   // })

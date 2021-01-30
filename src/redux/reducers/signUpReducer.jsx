@@ -8,12 +8,11 @@ const initialState = {
 const signUpReducer = (state = initialState, action) => {
   switch (action.type) {
     case NEW_SIGN_UP:
+      console.log('response',action.payload)
       return {
+        
         ...state,
-        users_sign_up: state.users_sign_up.concat({
-          key: Math.random(),
-          data: action.payload,
-        })
+        users_sign_up: action.payload
       };
     case TYPE_SIGN_UP_USER:
       return{

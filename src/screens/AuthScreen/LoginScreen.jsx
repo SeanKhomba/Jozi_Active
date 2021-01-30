@@ -35,16 +35,16 @@ const LoginScreen = (props) => {
     }
     props.add(login_data);
     console.log(login_data);
-    setName('');setSurname('');setPhone('');
-    setEmail('');setPassword(''); 
+    //setName('');setSurname('');setPhone('');
+    //setEmail('');setPassword(''); 
   }
 ;
 
   const { currentUser } = useContext(AuthContext);
 
-  if (currentUser) {
-    return <Redirect from="/" to="/home"  />;
-  }
+  // if (currentUser) {
+  //   return <Redirect from="/" to="/home"  />;
+  // }
   return (
     <PageContainer>
       <ImageSlide imageWidth={{width:100}} image={`linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url(${login})`}>
