@@ -20,6 +20,7 @@
     "@types/react-dom": "^16.9.8",
     "axios": "^0.21.1",
     "firebase": "^8.2.4",
+    "is-empty": "^1.2.0",
     "radium": "^0.26.0",
     "react": "^16.13.1",
     "react-card-carousel": "^1.1.3",

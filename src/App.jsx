@@ -7,13 +7,14 @@ import {Route,Redirect} from "react-router-dom";
 import { AuthProvider } from "./Auth";
 import PrivateRoute from './PrivateRoute.jsx'
 
-
-
 // Auth Routes Below
 import Auth from './constants/Auth/index.js'
 
 // Main Routes Below
 import Home from './constants/Home/index.js'
+
+
+// Check for token to keep user logged in
 
 
 const AuthRoutes = () => {

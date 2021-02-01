@@ -41,11 +41,13 @@ const SignUpScreen = (props) => {
   };
   let errorMsg;
   if(userData){
-    
+    console.log(userData);
     if(userData.status == 'Success'){
         return <Redirect from="/" to="/login"  />;
     }else{
+    
          errorMsg = userData.msg;
+         console.log(errorMsg);
     }
 
   }
@@ -55,9 +57,9 @@ const SignUpScreen = (props) => {
         <Header logoTitle="SIGN UP" divderTitle="Info"/>    
       </ImageSlide>
       <Container>
-        <p>{errorMsg}</p>
+       
       <AuthContainer height={'65%'} top={'2%'}>
-     
+         <p style={styles.errorMsg}>{errorMsg}</p>
         <form style= {styles.inputForm} onSubmit={handleSignUp} >
             <TextInput 
             value={name} 
@@ -121,6 +123,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(Radium(SignUpScreen)
 
 const styles = {
   
+  errorMsg:{
+    color: 'red'
+  },
   image: {
     width:10
   },

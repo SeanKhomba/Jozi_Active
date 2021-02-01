@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState,useContext, useEffect } from "react";
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loginData } from "../../redux/actions/login.jsx";
@@ -17,19 +17,14 @@ import Button from '../../components/Button.jsx';
 
 
 const LoginScreen = (props) => {
-  const [name,setName] = useState('');
-  const [surname,setSurname] = useState('');
-  const [phone,setPhone] = useState('');
+
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
-
+  const [redirctTo, setRedirctTo] = useState(false); 
 
   const handleLogin = (e) => {
     e.preventDefault();
     const login_data ={
-      name:name,
-      surname:surname,
-      phone:phone,
       email:email,
       password:password,
     }
@@ -40,11 +35,19 @@ const LoginScreen = (props) => {
   }
 ;
 
-  const { currentUser } = useContext(AuthContext);
+  useEffect(()=>{
+    (() => {
+      if (props.auth) {
+        setRedirctTo(true)
+      }
+  
+     
+    })();
+  });
 
-  // if (currentUser) {
-  //   return <Redirect from="/" to="/home"  />;
-  // }
+  if (redirctTo) {
+    return <Redirect from="/" to="/home"  />;
+  }
   return (
     <PageContainer>
       <ImageSlide imageWidth={{width:100}} image={`linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url(${login})`}>
@@ -53,24 +56,6 @@ const LoginScreen = (props) => {
       <Container>
       <AuthContainer height={'60%'} top={'5%'}>
         <form style= {styles.inputForm} onSubmit={handleLogin} >
-        <TextInput 
-            value={name} 
-            onChange={(e) => setName(e.target.value)}
-            label="Name:"
-            type="text"
-            />
-            <TextInput 
-            value={surname} 
-            onChange={(e) => setSurname(e.target.value)}
-            label="Surname:"
-            type="text"
-            />
-            <TextInput 
-            value={phone} 
-            onChange={(e) => setPhone(e.target.value)}
-            label="Phone Number:"
-            type="number"
-            />
             <TextInput 
             value={email} 
             onChange={(e) => setEmail(e.target.value)}
@@ -97,7 +82,8 @@ const LoginScreen = (props) => {
 const mapStateToProps = (state) => {
   console.log(state);
   return {
-    user: state.loginReducer.data,
+    user: state.loginReducer.user,
+    auth: state.loginReducer.isAuthenticated
   }
 }
 const mapDispatchToProps = (dispatch) => {
