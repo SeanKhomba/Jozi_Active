@@ -1,26 +1,29 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { AuthContext } from "./Auth";
+
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => {
- 
+ console.log( 'checking auth',auth);
   return (
     <Route
       {...rest}
       render={props =>
-        auth.isAuthenticated === true ? (
+        auth === true ? (
           <Component {...props} />
         ) : (
-          <Redirect to={"/login"} />
-          // <Component {...props} />
+       <Redirect to={"/login"} />
+      
         )
       }
     />
   );
 };
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    auth: state.loginReducer.isAuthenticated
+  }
+}
 
-const mapStateToProps = state => ({
-  auth: state.loginReducer.isAuthenticated,
-});
 export default connect(mapStateToProps)(PrivateRoute);

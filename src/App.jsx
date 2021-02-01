@@ -38,12 +38,12 @@ const AuthRoutes = () => {
   const App = () => {
 		return (
 			<StyleRoot>
-				<AuthProvider>
+				
 					<IonReactRouter>
 						<PrivateRoute  path="/" component={MainRoutes} />
 						<Route exact path="/login" component={AuthRoutes} />
 					</IonReactRouter>
-				</AuthProvider>
+				
 			</StyleRoot>
     )
 	}
