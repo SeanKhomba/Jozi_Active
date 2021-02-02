@@ -16,32 +16,49 @@ import {useParams} from "react-router"
 
 
 const BookingScreen = (props) => {
-	const {event_type} = useParams();
+	const {id,event_type} = useParams();
 
 	const [type,setType] = useState(event_type);
 	const [fullName,setFullName] = useState('');
 	const [phone,setPhone] = useState('');
 	const [options,setOptions] = useState('');
 	const [quantity,setQuantity] = useState('');
-
+	const booking = props.booking;
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const booking_data ={
 			type:type,
+			event_id:id,
 			fullName:fullName,
 			phone:phone,
 			options:options,
 			quantity:quantity,
 		  }
+		  console.log(booking_data);
 		props.add(booking_data);
-		setType('');setFullName('');setPhone('');setOptions('');setQuantity('');
+	//	setType('');setFullName('');setPhone('');setOptions('');setQuantity('');
 	}
+
+	let errorMsg;
+  if(booking){
+    console.log(booking);
+    if(booking.status == 'Success'){
+       
+    }else{
+    
+         errorMsg = booking.error;
+         console.log(errorMsg);
+    }
+
+  }
 	return (    
 	<div style={styles.bookingContainer}>
 		<Header logoTitle="BOOKING" divderTitle="Info"/>
 		<Container>
 			<InnerContainer>
+				
 				<div style={styles.bookingContent}>
+				<p style={styles.errorMsg}>{errorMsg}</p>
 					<div style={styles.bookingTextTop}>Thank You!</div>
 					<div style={styles.bookingTextBottom}>Below is the info you need to fill in to secure your booking </div>
 					<form style={styles.inputForm} onSubmit={handleSubmit}>
@@ -93,6 +110,9 @@ const BookingScreen = (props) => {
 	)
 }
 const styles={ 
+	errorMsg:{
+		color: 'red'
+	  },
 	bookingContainer:{
 		position: 'absolute',
 		background: 'linear-gradient(0deg, #000000 0%, rgb(171, 171, 171) 100%)',
@@ -193,7 +213,7 @@ const mapStateToProps = (state) => {
   }
   const mapDispatchToProps = (dispatch) => {
 	return {
-	  add: (booking_data) => dispatch(Booking_Data(booking_data),PostBookings(booking_data))
+	  add: (booking_data) => dispatch(PostBookings(booking_data))
 	}
   }
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(BookingScreen));

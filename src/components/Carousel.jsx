@@ -1,32 +1,30 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect,useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Radium from 'radium';
 import ReactCardCarousel from "react-card-carousel";
 import { connect } from 'react-redux';
-import  Jozi_Active_Events  from '../data/Event_Data.jsx';
+//import  Jozi_Active_Events  from '../data/Event_Data.jsx';
+import { getEventCategories } from "../redux/actions/events";
 import { Link } from 'react-router-dom';
 
 
 const Carousel = (props) => {
+    const dispatch = useDispatch();
     const [characters,setCharacters] = useState(['']);
-    console.log(Jozi_Active_Events)
-    console.log('this is the data',characters)
+   
+    const { eventsCategories } = useSelector(
+        state => ({
+            eventsCategories: state.eventsReducer.eventsCategories,
+        })
+      );
+    
+      useEffect(() => {
+        dispatch(getEventCategories());
+      }, [dispatch]);
           useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch(
-                `https://rickandmortyapi.com/api/character`,{
-                    method:'GET',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify()
-                  }
-            );
-            console.log(response);
-            const data = await response.json();
-            setCharacters(data.results);
-        };
-        fetchData();
+        
       }, []);
+      
     return (
         <div style={styles.cardContainer}>
         <ReactCardCarousel 
@@ -35,11 +33,11 @@ const Carousel = (props) => {
         spread={'wide'}
         disable_keydown={false}
         >
-            {Jozi_Active_Events.map((events) => {
+            {eventsCategories.map((events) => {
                 return(
                 <div style={[styles.card,(events.background_color)]} key={events.id}>
-                    <Link style={{textDecoration:'none'}} to={`/home/calendar/${events.id}/${events.event_type}`}>
-                        <img src={events.image} alt={"Jozi Active Bike"}  style={styles.cardImage} />
+                    <Link style={{textDecoration:'none'}} to={`/home/calendar/${events.id}/${events.name}`}>
+                        <img src={events.event_image_url} alt={events.name}  style={styles.cardImage} />
                     </Link>
                 </div> 
                 )
@@ -49,13 +47,13 @@ const Carousel = (props) => {
 		)
     }
     
-const mapStateToProps = (state) => {
-    return {
-        event: state.eventsReducer.events,
-    }
-}
+// const mapStateToProps = (state) => {
+//     return {
+//         event: state.eventsReducer.events,
+//     }
+// }
 
-export default connect(mapStateToProps)(Radium(Carousel));
+export default Radium(Carousel);
 
 
 const styles = {

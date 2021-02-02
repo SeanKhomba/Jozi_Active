@@ -1,5 +1,6 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import Radium from 'radium';
+import axios from "axios";
 import Container from '../../../components/Container.jsx';
 import InnerContainer from '../../../components/InnerContainer.jsx';
 import Header from '../../../components/Header.jsx';
@@ -14,12 +15,32 @@ import  Jozi_Active_Events  from '../../../data/Event_Data.jsx';
 
 const EventScreen = () => {
 const {id,event_type} = useParams();
+const [eventData, setEvent] = useState([]);
+
+useEffect(() => {
+    // POST request using axios inside useEffect React hook
+    const eventResponse = { id:id };
+    axios.post('http://127.0.0.1:8000/api/getEventById', eventResponse)
+        .then(resp => {
+
+   
+			const{ status,data} = resp.data;
+			console.log(data)
+			if(status == 'OK'){
+				setEvent(data);
+			}
+		});;
+
+// empty dependency array means this effect will only run once (like componentDidMount in classes)
+}, []);
+
+console.log('evdat',eventData);
 	return (    
 	<div style={styles.eventsContainer}>
 		<Header logoTitle="EVENTS" divderTitle="Info"/>
 		<Container>
 			<InnerContainer>
-			{Jozi_Active_Events.filter(((events) => events.id === id)).map((events) => {
+			{eventData.map((events) => {
 				return(
 					<div style={styles.eventsContent} key={events.id}>
 						<div style={[styles.roundImage,(events.background_color)]}>
@@ -28,11 +49,11 @@ const {id,event_type} = useParams();
 						<div style={styles.eventsText}>
 							<div style={styles.textContainer}>
 							<FaCalendarAlt  style={styles.iconImage}/>
-							<div style={styles.text}>{events.time}</div>
+							<div style={styles.text}>{events.date}</div>
 							</div>
 							<div style={styles.textContainer}>
 							<FaCalendarTimes  style={styles.iconImage}/>
-							<div style={[styles.text,{paddingRight:10}]}>{events.time_event}</div>
+							<div style={[styles.text,{paddingRight:10}]}>{events.start_time}</div>
 							</div>
 							<div style={styles.textContainer}>
 							<BiMoney  style={styles.iconImage}/>
@@ -41,7 +62,7 @@ const {id,event_type} = useParams();
 						</div>
 					</div>
 				)
-			})}	
+			})}
 			</InnerContainer>
 			<Link style={{textDecoration:'none'}} to={`/home/bookings/${id}/${event_type}`}>
 				<Button position={styles.button} letterSpacing={10} buttonName="BOOK NOW!"/>

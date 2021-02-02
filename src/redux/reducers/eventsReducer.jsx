@@ -1,7 +1,9 @@
-import { POST_EVENTS_API, POST_BOOKING } from '../../redux/actions/types';
+import { POST_EVENTS_API, POST_BOOKING,GET_EVENT_CATEGORY_API,GET_EVENTS_API } from '../../redux/actions/types';
 const initialState = {
     events_booked:{},
-    bookings_data:[]
+    bookings_data:{},
+    eventsCategories:[],
+    eventsData:[],
 }
 
  const eventsReducer = (state = initialState, action) => {
@@ -9,16 +11,23 @@ const initialState = {
         case POST_BOOKING:
         return{
             ...state,
-            bookings_data: state.bookings_data.concat({
-              key: Math.random(),
-              bookings_data: action.event_booking,
-            })
+            bookings_data: action.payload
         }
         case POST_EVENTS_API:
           return{
               ...state,
               events_booked: action.payload
         }
+        case GET_EVENT_CATEGORY_API:
+          return{
+              ...state,
+              eventsCategories: action.payload
+        } 
+        case GET_EVENTS_API:
+        return{
+            ...state,
+            eventsData: action.payload
+      }
       default:
         return state;
     }

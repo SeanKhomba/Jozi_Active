@@ -1,13 +1,17 @@
-import React from 'react'
+import React,{useEffect} from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+
 import Radium from 'radium';
 import { Link } from 'react-router-dom';
 import { Scrollbars } from 'react-custom-scrollbars';
 import {useParams} from "react-router"
 import  Jozi_Active_Events  from '../data/Event_Data.jsx';
+import { getEventsData } from "../redux/actions/events";
 
 const CardCalendar = (props) => {
 	const {id,event_type} = useParams();
-	
+	const dispatch = useDispatch();
+
 	// const {events,setEvents} = useState([]);
 	// useEffect (() => {
 	// 	try{
@@ -20,13 +24,32 @@ const CardCalendar = (props) => {
 	// 		console.log(e)
 	// 	}
 	// },[]);
+
+	const { allEvents } = useSelector(
+        state => ({
+            allEvents: state.eventsReducer.eventsData,
+        })
+      );
+    
+      useEffect(() => {
+		const eventRequest ={
+			category_id:id
+		  }
+        dispatch(getEventsData(eventRequest));
+      }, [dispatch]);
+          useEffect(() => {
+        
+      }, []);
+
+console.log(allEvents);
 	return (    
         <Scrollbars style={styles.scrollArea}>
         <div style={styles.cardContainer}>
-                {Jozi_Active_Events.filter(((events) => events.id === id)).filter((i) => i.date_month.toLowerCase().match(props.search)).map((events) => {
+		{/* filter(((events) => events.category_id === id)).filter((i) => i.date.toLowerCase().match(props.search)) */}
+                {allEvents.map((events) => {
                     return(
                         <div key={events.id} style={{padding:10}}>
-                        <Link style={{textDecoration:'none'}} to={`/home/events/${id}/${event_type}`}>
+                        <Link style={{textDecoration:'none'}} to={`/home/events/${events.id}/${event_type}`}>
                         <div style={styles.calendarCard}>
                             <div style={[styles.calendarText,{marginRight:10,borderRightWidth:10,borderRight: '1px solid white',}]}>
                                 <div style={styles.card_text_date}>{events.date}</div>
@@ -34,7 +57,7 @@ const CardCalendar = (props) => {
                             </div>
                             <div style={[styles.calendarText,{alignItems: 'none'}]}>
                                 <div style={styles.card_text_description}>{events.description}</div>
-                                <div style={styles.card_text_address}>{events.address}</div>
+                                <div style={styles.card_text_address}>{events.location}</div>
                                 <div style={styles.card_text_time}>{events.time}</div>
                             </div>
                             <div style={[styles.calendarText,{marginLeft:10}]}>

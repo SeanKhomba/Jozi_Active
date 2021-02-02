@@ -11,6 +11,7 @@ export const NEW_SIGN_UP = 'NEW_SIGN_UP';
 export const POST_EVENTS_API = 'POST_EVENTS_API';
 export const GET_EVENTS_API = 'GET_EVENTS_API';
 export const POST_BOOKING = 'POST_BOOKING';
+export const GET_EVENT_CATEGORY_API = 'GET_EVENT_CATEGORY_API';
 
 // Contact Types below ..
 export const POST_CONTACT_US = 'POST_CONTACT_US';
